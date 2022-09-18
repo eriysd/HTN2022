@@ -724,48 +724,6 @@ function App(props) {
             <Home isContactMounted={Boolean(contact)}/>
             {/* <Home image={capturedImg} setImage={setCapturedImg}/> */}
           </Route>
-          {/* <Route path="/ipfsdown">
-            <div style={{ paddingTop: 32, width: 740, margin: "auto" }}>
-              <Input
-                value={ipfsDownHash}
-                placeHolder="IPFS hash (like QmadqNw8zkdrrwdtPFK1pLi8PPxmkQ4pDJXY8ozHtz6tZq)"
-                onChange={e => {
-                  setIpfsDownHash(e.target.value);
-                }}
-              />
-            </div>
-            <Button
-              style={{ margin: 8 }}
-              loading={sending}
-              size="large"
-              shape="round"
-              type="primary"
-              onClick={async () => {
-                console.log("DOWNLOADING...", ipfsDownHash);
-                setDownloading(true);
-                setIpfsContent();
-                const result = await getFromIPFS(ipfsDownHash); // addToIPFS(JSON.stringify(yourJSON))
-                if (result && result.toString) {
-                  setIpfsContent(result.toString());
-                }
-                setDownloading(false);
-              }}
-            >
-              Download from IPFS
-            </Button>
-
-            <pre style={{ padding: 16, width: 500, margin: "auto", paddingBottom: 150 }}>{ipfsContent}</pre>
-          </Route>
-          <Route path="/debugcontracts">
-            <Contract
-              name="YourCollectible"
-              signer={userSigner}
-              provider={localProvider}
-              address={address}
-              blockExplorer={blockExplorer}
-              contractConfig={contractConfig}
-            />
-          </Route> */}
         </Switch>
       </BrowserRouter>
 
@@ -785,46 +743,6 @@ function App(props) {
           blockExplorer={blockExplorer}
         />
         {faucetHint}
-      </div>
-
-      {/* 🗺 Extra UI like gas price, eth price, faucet, and support: */}
-      <div style={{ position: "fixed", textAlign: "left", left: 0, bottom: 20, padding: 10 }}>
-        <Row align="middle" gutter={[4, 4]}>
-          <Col span={8}>
-            <Ramp price={price} address={address} networks={NETWORKS} />
-          </Col>
-
-          <Col span={8} style={{ textAlign: "center", opacity: 0.8 }}>
-            <GasGauge gasPrice={gasPrice} />
-          </Col>
-          <Col span={8} style={{ textAlign: "center", opacity: 1 }}>
-            <Button
-              onClick={() => {
-                window.open("https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA");
-              }}
-              size="large"
-              shape="round"
-            >
-              <span style={{ marginRight: 8 }} role="img" aria-label="support">
-                💬
-              </span>
-              Support
-            </Button>
-          </Col>
-        </Row>
-
-        <Row align="middle" gutter={[4, 4]}>
-          <Col span={24}>
-            {
-              /*  if the local provider has a signer, let's show the faucet:  */
-              faucetAvailable ? (
-                <Faucet localProvider={localProvider} price={price} ensProvider={mainnetProvider} />
-              ) : (
-                ""
-              )
-            }
-          </Col>
-        </Row>
       </div>
     </div>
   );
