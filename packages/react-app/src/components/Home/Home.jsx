@@ -6,6 +6,8 @@ import { WebcamCapture} from '../Webcam/Webcam'
 const Home = (props) => {
 
     const {capturedImg, setCapturedImg, isContactMounted, image, setImage, contact} = props
+    const [countdown, setCountdown] = useState(3);
+    const [countdownStart, setCountdownStart] = useState(false);
 
     // const [name, setName] = useState('')
     // const [email, setEmail] = useState('');
@@ -23,9 +25,9 @@ const Home = (props) => {
                     {
                         isContactMounted ?
                         <>
-                            <h1>{`${contact.name}, it's photo time!`}</h1>
+                            {!countdownStart?<h1>{`${contact.name}, it's photo time!`}</h1>:<h1>{!countdown==0?countdown:"Smile!"}</h1>}
                             <form className="form">
-                                <WebcamCapture image={image} setImage={setImage}/>
+                                <WebcamCapture image={image} setImage={setImage} countdown={countdown} countdownStart={countdownStart} setCountdown={setCountdown} setCountdownStart={setCountdownStart}/>
                                 <button type="submit" id="login-button" onClick={(e) => submitForm(e)}>Convert to NFT</button>
                             </form>
                         </>:
