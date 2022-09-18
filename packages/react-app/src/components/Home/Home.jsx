@@ -3,7 +3,10 @@ import './homeStyles.css'
 import { WebcamCapture} from '../Webcam/Webcam'
 
 
-const Home = () => {
+const Home = (props) => {
+
+    const {capturedImg, setCapturedImg} = props
+    const [image,setImage]=useState('');
 
     // const [name, setName] = useState('')
     // const [email, setEmail] = useState('');
@@ -20,7 +23,7 @@ const Home = () => {
                 <div className="text">
                     <h1>Scan Your Image</h1>
                     <form className="form">
-                        <WebcamCapture/>
+                        <WebcamCapture image={capturedImg} setImage={setCapturedImg}/>
                         <button type="submit" id="login-button" onClick={(e) => submitForm(e)}>Convert to NFT</button>
                     </form>
                 </div>

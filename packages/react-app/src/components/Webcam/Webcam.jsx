@@ -9,13 +9,17 @@ const videoConstraints = {
     facingMode: "user"
 };
 
-export const WebcamCapture = () => {
+export const WebcamCapture = ( props ) => {
+
+    // const {capturedImg, setCapturedImg} = props
+
     const [image,setImage]=useState('');
     const webcamRef = React.useRef(null);
     const capture = React.useCallback(
         () => {
         const imageSrc = webcamRef.current.getScreenshot();
-        setImage(imageSrc)
+        setImage(imageSrc);
+        // setCapturedImg(imageSrc);
         });
     return (
         <div className="webcam-container">

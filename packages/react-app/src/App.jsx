@@ -219,6 +219,7 @@ function App(props) {
 
   const [injectedProvider, setInjectedProvider] = useState();
   const [address, setAddress] = useState();
+  const [capturedImg, setCapturedImg] = useState("https://picsum.photos/200");
 
   const logoutOfWeb3Modal = async () => {
     await web3Modal.clearCachedProvider();
@@ -634,7 +635,8 @@ function App(props) {
                         }
                       >
                         <div>
-                          <img src={item.image} style={{ maxWidth: 150 }} />
+                          {/* <img src={item.image} style={{ maxWidth: 150 }} /> */}
+                          <img src={capturedImg} style={{ maxWidth: 150 }} />
                         </div>
                         <div>{item.description}</div>
                       </Card>
@@ -693,6 +695,7 @@ function App(props) {
 
           <Route path="/snap">
             <Home />
+            {/* <Home image={capturedImg} setImage={setCapturedImg}/> */}
           </Route>
           {/* <Route path="/ipfsdown">
             <div style={{ paddingTop: 32, width: 740, margin: "auto" }}>
