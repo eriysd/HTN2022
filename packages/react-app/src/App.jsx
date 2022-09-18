@@ -537,6 +537,33 @@ function App(props) {
   const [transferToAddresses, setTransferToAddresses] = useState({});
   const [minting, setMinting] = useState(false);
   const [count, setCount] = useState(1);
+  const [contact, setContact] = useState();
+
+  const fetchContact = async () => {
+    let data;
+    try {
+      const r = await fetch("http://localhost:8080/api/contact");
+      data = await r.json();
+    } catch(err) {
+      console.log("Error", err);
+    }
+
+    if(!data) {
+      console.log("sleeping...");
+      setTimeout(() => {
+        fetchContact();
+      }, 1000);
+
+      return;
+    } else {
+      setContact({...contact});
+      console.log("YAY");
+    }
+  }
+
+  useEffect(() => {
+    fetchContact();
+  }, [])
 
   
 
@@ -694,7 +721,7 @@ function App(props) {
           </Route>
 
           <Route path="/snap">
-            <Home />
+            <Home isContactMounted={Boolean(contact)}/>
             {/* <Home image={capturedImg} setImage={setCapturedImg}/> */}
           </Route>
           {/* <Route path="/ipfsdown">
