@@ -1,6 +1,6 @@
 import Portis from "@portis/web3";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import { Alert, Button, Card, Col, Input, List, Menu, Row } from "antd";
+import { Alert, Button, Card, Col, Input, List, Menu, message, Row } from "antd";
 import "antd/dist/antd.css";
 import Authereum from "authereum";
 import {
@@ -538,10 +538,11 @@ function App(props) {
   const [transferToAddresses, setTransferToAddresses] = useState({});
   const [minting, setMinting] = useState(false);
   const [count, setCount] = useState(1);
-  const [contact, setContact] = useState();
+  const [contact, setContact] = useState(null);
 
   const fetchContact = async () => {
-    let data;
+    let data = null;
+
     try {
       const r = await fetch("http://localhost:8080/api/contact");
       data = await r.json();
@@ -549,7 +550,7 @@ function App(props) {
       console.log("Error", err);
     }
 
-    if(!data) {
+    if(!data.name) {
       console.log("sleeping...");
       setTimeout(() => {
         fetchContact();
@@ -557,7 +558,7 @@ function App(props) {
 
       return;
     } else {
-      setContact({...contact});
+      setContact({...data});
       console.log("YAY");
     }
   }
@@ -666,7 +667,7 @@ function App(props) {
                         >
                           <div>
                             {/* <img src={item.image} style={{ maxWidth: 150 }} /> */}
-                            <img src={image} style={{ maxWidth: 150 }} />
+                            <img src={image} style={{ maxWidth: "5rem" }} />
     
                           </div>
                           <div>{contact.email}</div>
@@ -726,7 +727,7 @@ function App(props) {
           </Route>
 
           <Route path="/snap">
-            <Home isContactMounted={Boolean(contact)} image ={image} setImage={setImage} />
+            <Home isContactMounted={contact!==null} image ={image} setImage={setImage} contact={contact}/>
             {/* const [image,setImage]=useState(''); */}
             {/* <Home image={capturedImg} setImage={setCapturedImg}/> */}
           </Route>
