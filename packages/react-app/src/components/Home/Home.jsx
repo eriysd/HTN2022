@@ -21,14 +21,14 @@ const Home = (props) => {
             <div className="container">
                 <div className="text">
                     <h1>Scan Your Image</h1>
-                    {/* {
-                        // isContactMounted ?
-                        <form className="form"> */}
+                    {
+                        isContactMounted ?
+                        <form className="form">
                             <WebcamCapture image={image} setImage={setImage}/>
                             <button type="submit" id="login-button" onClick={(e) => submitForm(e)}>Convert to NFT</button>
-                        {/* </form>
-                        // <h1>waiting for user signup..</h1>
-                    } */}
+                        </form>:
+                        <h1>waiting for user signup..</h1>
+                    }
                 </div>
             </div>
         </div>
