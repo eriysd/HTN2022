@@ -28,7 +28,7 @@ import { INFURA_ID, NETWORK, NETWORKS } from "./constants";
 import { Transactor } from "./helpers";
 import { useContractConfig } from "./hooks";
 
-import json from "./data/nft.js";
+import json from "./nft/nft.js";
 import Home from "./components/Home/Home";
 // import Hints from "./Hints";
 
