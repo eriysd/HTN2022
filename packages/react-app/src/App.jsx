@@ -27,7 +27,7 @@ import { Account, Address, AddressInput, Contract, Faucet, GasGauge, Header, Ram
 import { INFURA_ID, NETWORK, NETWORKS } from "./constants";
 import { Transactor } from "./helpers";
 import { useContractConfig } from "./hooks";
-
+import {WebcamCapture} from './components/Webcam/Webcam'
 import json from "./nft/nft.js";
 import Home from "./components/Home/Home";
 // import Hints from "./Hints";
@@ -210,6 +210,7 @@ const web3Modal = new Web3Modal({
 });
 
 function App(props) {
+
   const mainnetProvider =
     poktMainnetProvider && poktMainnetProvider._isProvider
       ? poktMainnetProvider
@@ -219,8 +220,8 @@ function App(props) {
 
   const [injectedProvider, setInjectedProvider] = useState();
   const [address, setAddress] = useState();
-  const [capturedImg, setCapturedImg] = useState("https://picsum.photos/200");
-
+  // const [capturedImg, setCapturedImg] = useState("https://picsum.photos/200");
+  const [image, setImage] = useState('')
   const logoutOfWeb3Modal = async () => {
     await web3Modal.clearCachedProvider();
     if (injectedProvider && injectedProvider.provider && typeof injectedProvider.provider.disconnect == "function") {
@@ -663,7 +664,8 @@ function App(props) {
                       >
                         <div>
                           {/* <img src={item.image} style={{ maxWidth: 150 }} /> */}
-                          <img src={capturedImg} style={{ maxWidth: 150 }} />
+                          <img src={image} style={{ maxWidth: 150 }} />
+  
                         </div>
                         <div>{item.description}</div>
                       </Card>
@@ -721,7 +723,8 @@ function App(props) {
           </Route>
 
           <Route path="/snap">
-            <Home isContactMounted={Boolean(contact)}/>
+            <Home isContactMounted={Boolean(contact)} image ={image} setImage={setImage} />
+            {/* const [image,setImage]=useState(''); */}
             {/* <Home image={capturedImg} setImage={setCapturedImg}/> */}
           </Route>
           {/* <Route path="/ipfsdown">

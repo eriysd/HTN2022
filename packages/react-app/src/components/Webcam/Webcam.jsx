@@ -11,9 +11,7 @@ const videoConstraints = {
 
 export const WebcamCapture = ( props ) => {
 
-    // const {capturedImg, setCapturedImg} = props
-
-    const [image,setImage]=useState('');
+    const {image, setImage} = props
     const webcamRef = React.useRef(null);
     const capture = React.useCallback(
         () => {
@@ -45,7 +43,6 @@ export const WebcamCapture = ( props ) => {
                     <button onClick={(e) => {
                         e.preventDefault();
                         capture();
-                        console.log(image)
                     }}
                         className="webcam-btn">Capture</button>
                 }
