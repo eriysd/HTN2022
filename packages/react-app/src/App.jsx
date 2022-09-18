@@ -27,6 +27,9 @@ import { Account, Address, AddressInput, Contract, Faucet, GasGauge, Header, Ram
 import { INFURA_ID, NETWORK, NETWORKS } from "./constants";
 import { Transactor } from "./helpers";
 import { useContractConfig } from "./hooks";
+
+import json from "./data/nft.js";
+import Home from "./components/Home/Home";
 // import Hints from "./Hints";
 
 const projectId = "2DDHiA47zFkJXtnxzl2jFkyuaoq";
@@ -534,129 +537,7 @@ function App(props) {
   const [minting, setMinting] = useState(false);
   const [count, setCount] = useState(1);
 
-  // the json for the nfts
-  const json = {
-    1: {
-      description: "It's actually a bison?",
-      external_url: "https://austingriffith.com/portfolio/paintings/", // <-- this can link to a page for the specific file too
-      image: "https://austingriffith.com/images/paintings/buffalo.jpg",
-      name: "Buffalo",
-      attributes: [
-        {
-          trait_type: "BackgroundColor",
-          value: "green",
-        },
-        {
-          trait_type: "Eyes",
-          value: "googly",
-        },
-        {
-          trait_type: "Stamina",
-          value: 42,
-        },
-      ],
-    },
-    2: {
-      description: "What is it so worried about?",
-      external_url: "https://austingriffith.com/portfolio/paintings/", // <-- this can link to a page for the specific file too
-      image: "https://austingriffith.com/images/paintings/zebra.jpg",
-      name: "Zebra",
-      attributes: [
-        {
-          trait_type: "BackgroundColor",
-          value: "blue",
-        },
-        {
-          trait_type: "Eyes",
-          value: "googly",
-        },
-        {
-          trait_type: "Stamina",
-          value: 38,
-        },
-      ],
-    },
-    3: {
-      description: "What a horn!",
-      external_url: "https://austingriffith.com/portfolio/paintings/", // <-- this can link to a page for the specific file too
-      image: "https://austingriffith.com/images/paintings/rhino.jpg",
-      name: "Rhino",
-      attributes: [
-        {
-          trait_type: "BackgroundColor",
-          value: "pink",
-        },
-        {
-          trait_type: "Eyes",
-          value: "googly",
-        },
-        {
-          trait_type: "Stamina",
-          value: 22,
-        },
-      ],
-    },
-    4: {
-      description: "Is that an underbyte?",
-      external_url: "https://austingriffith.com/portfolio/paintings/", // <-- this can link to a page for the specific file too
-      image: "https://austingriffith.com/images/paintings/fish.jpg",
-      name: "Fish",
-      attributes: [
-        {
-          trait_type: "BackgroundColor",
-          value: "blue",
-        },
-        {
-          trait_type: "Eyes",
-          value: "googly",
-        },
-        {
-          trait_type: "Stamina",
-          value: 15,
-        },
-      ],
-    },
-    5: {
-      description: "So delicate.",
-      external_url: "https://austingriffith.com/portfolio/paintings/", // <-- this can link to a page for the specific file too
-      image: "https://austingriffith.com/images/paintings/flamingo.jpg",
-      name: "Flamingo",
-      attributes: [
-        {
-          trait_type: "BackgroundColor",
-          value: "black",
-        },
-        {
-          trait_type: "Eyes",
-          value: "googly",
-        },
-        {
-          trait_type: "Stamina",
-          value: 6,
-        },
-      ],
-    },
-    6: {
-      description: "Raaaar!",
-      external_url: "https://austingriffith.com/portfolio/paintings/", // <-- this can link to a page for the specific file too
-      image: "https://austingriffith.com/images/paintings/godzilla.jpg",
-      name: "Godzilla",
-      attributes: [
-        {
-          trait_type: "BackgroundColor",
-          value: "orange",
-        },
-        {
-          trait_type: "Eyes",
-          value: "googly",
-        },
-        {
-          trait_type: "Stamina",
-          value: 99,
-        },
-      ],
-    },
-  };
+  
 
   const mintItem = async () => {
     // upload to ipfs
@@ -712,34 +593,14 @@ function App(props) {
               Transfers
             </Link>
           </Menu.Item>
-          <Menu.Item key="/ipfsup">
+          <Menu.Item key="/snap">
             <Link
               onClick={() => {
-                setRoute("/ipfsup");
+                setRoute("/snap");
               }}
-              to="/ipfsup"
+              to="/snap"
             >
-              IPFS Upload
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/ipfsdown">
-            <Link
-              onClick={() => {
-                setRoute("/ipfsdown");
-              }}
-              to="/ipfsdown"
-            >
-              IPFS Download
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/debugcontracts">
-            <Link
-              onClick={() => {
-                setRoute("/debugcontracts");
-              }}
-              to="/debugcontracts"
-            >
-              Debug Contracts
+              Snap
             </Link>
           </Menu.Item>
         </Menu>
@@ -830,49 +691,10 @@ function App(props) {
             </div>
           </Route>
 
-          <Route path="/ipfsup">
-            <div style={{ paddingTop: 32, width: 740, margin: "auto", textAlign: "left" }}>
-              <ReactJson
-                style={{ padding: 8 }}
-                src={yourJSON}
-                theme="pop"
-                enableClipboard={false}
-                onEdit={(edit, a) => {
-                  setYourJSON(edit.updated_src);
-                }}
-                onAdd={(add, a) => {
-                  setYourJSON(add.updated_src);
-                }}
-                onDelete={(del, a) => {
-                  setYourJSON(del.updated_src);
-                }}
-              />
-            </div>
-
-            <Button
-              style={{ margin: 8 }}
-              loading={sending}
-              size="large"
-              shape="round"
-              type="primary"
-              onClick={async () => {
-                console.log("UPLOADING...", yourJSON);
-                setSending(true);
-                setIpfsHash();
-                const result = await ipfs.add(JSON.stringify(yourJSON)); // addToIPFS(JSON.stringify(yourJSON))
-                if (result && result.path) {
-                  setIpfsHash(result.path);
-                }
-                setSending(false);
-                console.log("RESULT:", result);
-              }}
-            >
-              Upload to IPFS
-            </Button>
-
-            <div style={{ padding: 16, paddingBottom: 150 }}>{ipfsHash}</div>
+          <Route path="/snap">
+            <Home />
           </Route>
-          <Route path="/ipfsdown">
+          {/* <Route path="/ipfsdown">
             <div style={{ paddingTop: 32, width: 740, margin: "auto" }}>
               <Input
                 value={ipfsDownHash}
@@ -913,7 +735,7 @@ function App(props) {
               blockExplorer={blockExplorer}
               contractConfig={contractConfig}
             />
-          </Route>
+          </Route> */}
         </Switch>
       </BrowserRouter>
 
